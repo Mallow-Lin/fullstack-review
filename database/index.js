@@ -1,8 +1,16 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/fetcher');
-
+mongoose.connect('mongodb://localhost/fetcher', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+ });
 let repoSchema = mongoose.Schema({
   // TODO: your schema here!
+  repo_id: {type: Number, unique: true},
+  repo_name: String,
+  owner: String,
+  description: String,
+  url: String,
+  forks: Number
 });
 
 let Repo = mongoose.model('Repo', repoSchema);
@@ -11,6 +19,7 @@ let save = (repos) => {
   // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB
+  repos = repos.data;
   repos.forEach((repo) => {
     var newRepo = new Repo ({
       repo_id: repo.id,
@@ -22,7 +31,7 @@ let save = (repos) => {
     })
     newRepo.save((err)=> {
       if (err) {
-        console.log('error in savinv', err)
+        console.log('error in saving', err)
       } else {
         console.log('save successfully');
       }
@@ -31,3 +40,4 @@ let save = (repos) => {
 }
 
 module.exports.save = save;
+module.exports.Repo = Repo;

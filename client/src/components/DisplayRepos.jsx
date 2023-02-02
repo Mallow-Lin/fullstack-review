@@ -2,8 +2,8 @@ import React from 'react';
 
 const DisplayRepos = ({ repo }) => (
   <div>
-    <a>{repo.owner} / </a>
-    <a>{repo.repo_name}</a>
+    <a href={repo.owner_url}>{repo.owner} / </a>
+    <a href={repo.url}>{repo.repo_name}</a>
     <div>About: {repo.description}</div>
     <ul>Fork: {repo.forks}</ul>
     <ul>Watch: {repo.watchers}</ul>

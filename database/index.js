@@ -5,7 +5,7 @@ mongoose.connect('mongodb://localhost/fetcher', {
  });
 let repoSchema = mongoose.Schema({
   // TODO: your schema here!
-  repo_id: {type: Number, unique: true},
+  repo_id: { type: Number, unique: true},
   repo_name: String,
   owner: String,
   description: String,
@@ -31,7 +31,7 @@ let save = (repos) => {
     })
     newRepo.save((err)=> {
       if (err) {
-        console.log('error in saving', err)
+        console.log('save failed', err)
       } else {
         console.log('save successfully');
       }

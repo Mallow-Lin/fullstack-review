@@ -9,7 +9,7 @@ const App = () => {
   const [repos, setRepos] = useState([]);
 
   const search = (term) => {
-      $.ajax({
+        $.ajax({
         url: 'http://localhost:1128/repos',
         type: 'POST',
         data: {
@@ -17,22 +17,25 @@ const App = () => {
         },
         success: () => {
           console.log('POST sucessfully');
+          $.ajax({
+          url: 'http://localhost:1128/repos',
+          type: 'GET',
+          data: {
+            username: term
+          },
+          success: (data) => {
+            console.log('GET successfully')
+            setRepos(data);
+          },
+          error: (err) => {
+            console.log('Failed GET request', err)
+          }
+      })
         },
         error: (err) => { //POST request failED
           console.log('Failed POST request', err)
         }
       })
-
-      // $.ajax({
-      //   url: 'http://localhost:1128/repos',
-      //   type: 'GET',
-      //   data: {
-      //     username: term
-      //   },
-      //   success: () => {
-      //   }
-      // })
-
     console.log(`${term} was searched`);
   }
 

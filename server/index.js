@@ -38,16 +38,6 @@ app.get('/repos', function (req, res) {
   // TODO - your code here!
   // This route should send back the top 25 repos
   var username = req.query.username;
-  mongooseDB.Repo.find({ owner: username }).sort({ forks: -1 }).limit(25)
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      console.log('retrieve database failed', err)
-    })
-});
-
-app.post('/', function(req, res) {
   mongooseDB.Repo.aggregate([
     {$sort: {forks: -1}}, {$limit: 25}
   ])
@@ -55,12 +45,12 @@ app.post('/', function(req, res) {
     res.send(data);
   })
   .catch((err) => {
-    console.log('initial retrieve failed', err)
+    console.log('repos retrieve failed', err)
   })
-})
+});
+
 let port = 1128;
 
 app.listen(port, function() {
   console.log(`listening on port ${port}`);
 });
-

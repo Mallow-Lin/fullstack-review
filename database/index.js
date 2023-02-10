@@ -25,13 +25,14 @@ let save = (repos) => {
   // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB
-  repos = repos.data;
-  repos.forEach((repo) => {
+  return new Promise ((resolve, reject) => {
+    repos = repos.data;
+    repos.forEach((repo) => {
     Repo.findOne({repo_id: repo.id})
       .then((result) => {
-      if (result) {
-        console.log('file saved already')
-      } else {
+        if (result) {
+          reject('file saved already')
+        } else {
         var newRepo = new Repo ({
           repo_id: repo.id,
           repo_name: repo.name,
@@ -45,15 +46,38 @@ let save = (repos) => {
           created_at: repo.created_at.split('T')[0],
           language: repo.language
         })
-        console.log('reporeporepo', newRepo)
-        return newRepo.save((err)=> {
-          if (err) {
-            console.log('save failed')
-          } else {
-            console.log('save successfully');
-          }
-        })
-      }
+          resolve(newRepo.save())
+        }
+      })
+  // repos = repos.data;
+  // repos.forEach((repo) => {
+  //   Repo.findOne({repo_id: repo.id})
+  //     .then((result) => {
+  //     if (result) {
+  //       console.log('file saved already')
+  //     } else {
+  //       var newRepo = new Repo ({
+  //         repo_id: repo.id,
+  //         repo_name: repo.name,
+  //         owner: repo.owner.login,
+  //         owner_url: repo.owner.html_url,
+  //         description: repo.description || 'No Description',
+  //         url: repo.html_url,
+  //         forks: repo.forks,
+  //         watchers: repo.watchers_count,
+  //         branch: repo.default_branch,
+  //         created_at: repo.created_at.split('T')[0],
+  //         language: repo.language
+  //       })
+  //       console.log('reporeporepo', newRepo)
+  //       return newRepo.save((err)=> {
+  //         if (err) {
+  //           console.log('save failed')
+  //         } else {
+  //           console.log('save successfully');
+  //         }
+  //       })
+  //     }
     })
   })
 }

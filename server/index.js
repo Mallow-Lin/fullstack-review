@@ -25,7 +25,7 @@ app.post('/repos', function (req, res) {
   var username = req.body.username;
   githubAPI.getReposByUsername(username)
     .then((repos) => {
-      mongooseDB.save(repos)
+      return mongooseDB.save(repos)
     })
     .catch((err) => {
       console.log('getReposByUsername failed', err);
